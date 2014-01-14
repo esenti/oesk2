@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <a href="/">Index</a>
+    <a href="/test">Test</a>
+    <hr>
+    <ul>
+        {% for result in results %}
+            <li><span class="browser-name">{{ result.browser_name }}</span> {{ result.browser_version }} on {{ result.os }} <span class="date">({{ result.date }})</span>: {{ result.score }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
