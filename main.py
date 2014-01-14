@@ -30,7 +30,7 @@ def results():
         result = Result(date=datetime.now(), **data)
         result.put()
 
-        query = Result.query(Result.browser_name == data['browser_name'])
+        query = Result.query(Result.browser_name == data['browser_name'], Result.browser_version == data['browser_version'], Result.os == data['os'])
 
         scores = [item.score for item in query]
 

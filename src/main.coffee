@@ -14,8 +14,6 @@ $ ->
 	c.width = window.innerWidth
 	c.height = window.innerHeight
 
-	fpsHistory = []
-
 	setDelta = ->
 		now = Date.now()
 		delta = (now - before) / 1000
@@ -37,17 +35,8 @@ $ ->
 			fps = frames
 			frames = 0
 			sec = 0
-			fpsHistory.push(fps)
-			if fpsHistory.length > 5
-				fpsHistory.shift()
 
-			console.log fpsHistory.join(', ')
-			avg = fpsHistory.reduce((a, b) -> a + b) / fpsHistory.length
-
-			console.log avg
-			console.log toNext
-
-			if avg >= 45
+			if fps >= 45
 				toNext -= 1
 			else
 				toNext = 5
@@ -57,8 +46,7 @@ $ ->
 				toNext = 5
 				toEnd = 10
 				lastOK = obj.length
-				f = avg - 44
-				console.log "f = #{f}"
+				f = fps - 44
 				obj = obj.concat(({x: Math.random() * (c.width - 20), y: Math.random() * (c.height - 20), dx: (Math.random() - 0.5) * 8, dy: (Math.random() - 0.5) * 8, color: "rgb(#{Math.round(Math.random() * 255)}, 100, #{Math.round(Math.random() * 255)})"} for _ in [1..Math.round(16 * f / 10) * 10]))
 
 
