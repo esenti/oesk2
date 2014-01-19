@@ -66,7 +66,7 @@ $ ->
 		obj = ({x: Math.random() * (c.width - 20), y: Math.random() * (c.height - 20), dx: (Math.random() - 0.5) * 8, dy: (Math.random() - 0.5) * 8, color: "rgb(#{Math.round(Math.random() * 255)}, 100, #{Math.round(Math.random() * 255)})"} for _ in [1..50])
 
 		toNext = 5
-		toEnd = 10
+		toEnd = 5
 		lastOK = 0
 
 		update = ->
@@ -88,10 +88,10 @@ $ ->
 
 				if toNext == 0
 					toNext = 5
-					toEnd = 10
+					toEnd = 5
 					lastOK = obj.length
 					f = fps - 44
-					obj = obj.concat(({x: Math.random() * (c.width - 20), y: Math.random() * (c.height - 20), dx: (Math.random() - 0.5) * 8, dy: (Math.random() - 0.5) * 8, color: "rgb(#{Math.round(Math.random() * 255)}, 100, #{Math.round(Math.random() * 255)})"} for _ in [1..Math.round(16 * f / 10) * 10]))
+					obj = obj.concat(({x: Math.random() * (c.width - 20), y: Math.random() * (c.height - 20), dx: (Math.random() - 0.5) * 8, dy: (Math.random() - 0.5) * 8, color: "rgb(#{Math.round(Math.random() * 255)}, 100, #{Math.round(Math.random() * 255)})"} for _ in [1..Math.round(20 * f / 10) * 10]))
 
 
 			ctx.clearRect(0, 0, c.width, c.height)
