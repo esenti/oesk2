@@ -43,10 +43,15 @@ def results():
 
 @app.route('/api/stats/browsers')
 def browsers():
-        query = Result.query()
+        query = Result.query().order(Result.browser_name)
 
         return jsonify({'items': [{'browser': k, 'count': len([_ for _ in g])} for k, g in groupby(query, lambda (item): item.browser_name)]})
 
+@app.route('/api/stats/os')
+def os():
+        query = Result.query().order(Result.os)
+
+        return jsonify({'items': [{'os': k, 'count': len([_ for _ in g])} for k, g in groupby(query, lambda (item): item.os)]})
 
 @app.route('/stats')
 def stats():

@@ -1,12 +1,64 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Canvas benchmark</title>
+        <link rel="stylesheet" href="static/css/main.css">
 
-{% block content %}
-    <a href="/">Index</a>
-    <a href="/test">Test</a>
-    <hr>
-    <ul>
-        {% for result in results %}
-            <li><span class="browser-name">{{ result.browser_name }}</span> {{ result.browser_version }} on {{ result.os }} <span class="date">({{ result.date }})</span>: {{ result.score }}</li>
-        {% endfor %}
-    </ul>
-{% endblock %}
+        <script src="static/js/jquery-2.0.3.min.js"></script>
+        <script src="static/js/platform.js"></script>
+        <script type="text/javascript" src="http://builds.handlebarsjs.com.s3.amazonaws.com/handlebars-v1.1.2.js"></script>
+        <script src="static/js/raphael-min.js"></script>
+        <script src="static/js/g.raphael-min.js"></script>
+        <script src="static/js/g.pie-min.js"></script>
+        <script src="static/js/main.js"></script>
+
+        {% raw %}
+
+        <script id="results" type="text/x-handlebars-template">
+            <div class="links">
+                <a class="results-link" href="">Results</a>
+                <a class="test-link" href="">Test</a>
+                <a class="stats-link" href="">Stats</a>
+            </div>
+            <hr>
+            <ul>
+                {{#each results}}
+                    <li><span class="browser-name">{{ browser_name }}</span> {{ browser_version }} on {{ os }} <span class="date">({{ date }})</span>: {{ score }}</li>
+                {{/each}}
+            </ul>
+        </script>
+
+        <script id="test" type="text/x-handlebars-template">
+            <div id="results-popup">
+                <div class="platform"></div>
+                <div class="objects"></div>
+                Average
+                <div class="average"></div>
+                <hr>
+                <a class="results-link" href="">Results</a>
+                <a class="test-link" href="">Test again</a>
+            </div>
+            <canvas id="draw"></canvas>
+        </script>
+
+        <script id="stats" type="text/x-handlebars-template">
+            <div class="links">
+                <a class="results-link" href="">Results</a>
+                <a class="test-link" href="">Test</a>
+                <a class="stats-link" href="">Stats</a>
+            </div>
+            <hr>
+            <h1>Browsers</h1>
+            <div id="browsers" width="400" height="400"></div>
+            <h1>Operating systems</h1>
+            <div id="os" width="400" height="400"></div>
+        </script
+
+        {% endraw %}
+    </head>
+    <body>
+        <div id="wrapper">
+        </div>
+    </body>
+</html>
