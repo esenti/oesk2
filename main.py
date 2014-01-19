@@ -13,14 +13,9 @@ class Result(ndb.Model):
     os = ndb.StringProperty()
     date = ndb.DateTimeProperty()
 
-@app.route('/test')
-def test():
-    return render_template('test.html')
-
 @app.route('/')
 def index():
-    query = Result.query().order(-Result.date)
-    return render_template('index.html', results=[item.to_dict() for item in query])
+    return render_template('index.html')
 
 @app.route('/api/results', methods=['GET', 'POST'])
 def results():
@@ -53,9 +48,14 @@ def os():
 
         return jsonify({'items': [{'os': k, 'count': len([_ for _ in g])} for k, g in groupby(query, lambda (item): item.os)]})
 
-@app.route('/stats')
-def stats():
-    return render_template('stats.html')
+def avg(l):
+    return sum(l) / len(l)
+
+@app.route('/api/stats/results')
+def average_results():
+        query = Result.query().order(Result.os, Result.browser_name)
+
+        return jsonify({'items': [{'platform': k, 'value': avg([item.score for item in g])} for k, g in groupby(query, lambda (item): (item.os, item.browser_name))]})
 
 
 if __name__ == "__main__":

@@ -23,6 +23,13 @@ $ ->
 
 		wrapper.html(templates.stats())
 
+		$.get('api/stats/results', (data) ->
+			r = Raphael('average-results')
+
+			r.barchart(0, 0, 600, 300, v.value for v in data.items)
+			axis = Raphael.g.axis(100, 310, 400, null, null, data.items.length - 1, 2, "#{v.platform}\n#{v.value}" for v in data.items, "|", 0, r)
+		)
+
 		$.get('api/stats/browsers', (data) ->
 			r = Raphael('browsers')
 
