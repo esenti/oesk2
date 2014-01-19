@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <a href="/">Index</a>
+    <a href="/test">Test</a>
+    <hr>
+	<canvas id="browsers" width="400" height="400"></canvas>
+	<div id="browsers-legend"></div>
+
+    <script src="static/js/Chart.min.js"></script>
+    <script src="static/js/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript">
+
+		function legend(parent, data) {
+		    parent.className = 'legend';
+		    var datas = data.hasOwnProperty('datasets') ? data.datasets : data;
+
+		    datas.forEach(function(d) {
+		        var title = document.createElement('span');
+		        title.className = 'title';
+		        title.style.borderColor = d.hasOwnProperty('strokeColor') ? d.strokeColor : d.color;
+		        title.style.borderStyle = 'solid';
+		        parent.appendChild(title);
+
+		        var text = document.createTextNode(d.title);
+		        title.appendChild(text);
+		    });
+		}
+
+		$(function() {
+			$.get('api/stats/browsers', function(data) {
+				// var data = [
+				// 	{
+				// 		value: 30,
+				// 		color:"#F38630"
+				// 	},
+				// 	{
+				// 		value : 50,
+				// 		color : "#E0E4CC"
+				// 	},
+				// 	{
+				// 		value : 100,
+				// 		color : "#69D2E7"
+				// 	}
+				// ]
+
+				chartData = []
+
+				data.items.forEach(function(item) {
+					chartData.push({
+						value: item.count,
+						title: item.browser,
+						color : "#E0E4CC"
+					})
+				})
+
+				var ctx = document.getElementById("browsers").getContext("2d");
+				new Chart(ctx).Pie(chartData);
+				legend(document.getElementById("browsers-legend"), chartData);
+			})
+		})
+	</script>
+{% endblock %}

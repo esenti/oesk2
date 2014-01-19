@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, render_template, request
 from google.appengine.ext import ndb
 from datetime import datetime
+from itertools import groupby
 
 app = Flask(__name__)
 
@@ -21,7 +22,6 @@ def index():
     query = Result.query().order(-Result.date)
     return render_template('index.html', results=[item.to_dict() for item in query])
 
-
 @app.route('/api/results', methods=['GET', 'POST'])
 def results():
     if request.method == 'POST':
@@ -39,6 +39,19 @@ def results():
         query = Result.query().order(-Result.date)
 
         return jsonify({'items': [item.to_dict() for item in query]})
+
+
+@app.route('/api/stats/browsers')
+def browsers():
+        query = Result.query()
+
+        return jsonify({'items': [{'browser': k, 'count': len([_ for _ in g])} for k, g in groupby(query, lambda (item): item.browser_name)]})
+
+
+@app.route('/stats')
+def stats():
+    return render_template('stats.html')
+
 
 if __name__ == "__main__":
     app.run()

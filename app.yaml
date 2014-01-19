@@ -6,6 +6,8 @@ threadsafe: no
 
 skip_files:
 - src/.*
+- .*\.sh
+- .*\.pyc
 
 handlers:
 - url: /static
